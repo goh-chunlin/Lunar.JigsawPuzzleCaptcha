@@ -1,17 +1,21 @@
 ﻿@page "/"
 @inject HttpClient http
-@using System.Text.Json
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <div>
-    <div style="margin: 0 auto; width: 696px; height: 442px; background-image: url('data:image/png;base64, @backgroundImage');">
+    <div style="margin: 0 auto; padding-left: @(x)px; padding-top: @(y)px; width: 696px; height: 442px; background-image: url('data:image/png;base64, @backgroundImage');">
         <div style="width: 88px; height: 80px; background-image: url('data:image/png;base64, @missingPieceImage');">
             
         </div>
     </div>
+
+    <div style="margin: 0 auto; width: 696px;">
+        <input type="range" min="0" max="608" style="width: 100%;" @bind="@x" @bind:event="oninput" />
+    </div>
+
 </div>
 
 
@@ -21,11 +25,14 @@ Welcome to your new app.
 @code{
     private string backgroundImage = "";
     private string missingPieceImage = "";
+    private int x;
+    private int y;
 
 	protected override async Task OnInitializedAsync()
     {
         var jigsawPuzzle = await http.GetFromJsonAsync<JigsawPuzzle>("api/jigsaw-puzzle");
         backgroundImage = jigsawPuzzle.BackgroundImage;
         missingPieceImage = jigsawPuzzle.MissingPieceImage;
+        y = jigsawPuzzle.Y;
     }
 }
