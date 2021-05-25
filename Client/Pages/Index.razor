@@ -1,19 +1,31 @@
 ﻿@page "/"
 @inject HttpClient http
+@using System.Text.Json
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<img src="data:image/png;base64, @jigsawPuzzle.BackgroundImage" />
+<div>
+    <div style="margin: 0 auto; width: 696px; height: 442px; background-image: url('data:image/png;base64, @backgroundImage');">
+        <div style="width: 88px; height: 80px; background-image: url('data:image/png;base64, @missingPieceImage');">
+            
+        </div>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<SurveyPrompt Title="Feel free to share your feedback on this project!" />
 
 @code{
-    private JigsawPuzzle jigsawPuzzle;
+    private string backgroundImage = "";
+    private string missingPieceImage = "";
 
 	protected override async Task OnInitializedAsync()
     {
-        jigsawPuzzle = await http.GetFromJsonAsync<JigsawPuzzle>("api/jigsaw-puzzle");
+        var jigsawPuzzle = await http.GetFromJsonAsync<JigsawPuzzle>("api/jigsaw-puzzle");
+        backgroundImage = jigsawPuzzle.BackgroundImage;
+        missingPieceImage = jigsawPuzzle.MissingPieceImage;
     }
 }
