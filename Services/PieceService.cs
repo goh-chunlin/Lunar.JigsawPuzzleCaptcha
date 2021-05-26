@@ -47,6 +47,15 @@ namespace Services
             return jigsawPuzzle;
         }
 
+        public bool IsPuzzleSolved(JigsawPuzzleInfo submission, JigsawPuzzleInfo record) 
+        {
+            if (submission.Id != record.Id) return false;
+            if (Math.Abs(submission.X - record.X) > 5) return false;
+            if (submission.SubmittedAt > record.ExpiredAt) return false;
+
+            return true;
+        }
+
         private int[,] GetMissingPieceData()
         {
             int[,] data = new int[PIECE_WIDTH, PIECE_HEIGHT];

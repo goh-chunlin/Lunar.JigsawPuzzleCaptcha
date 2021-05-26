@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject HttpClient http
+@inject IToastService toastService
+@using Client.ViewModels
 
 <h1>Hello, world!</h1>
 
@@ -12,8 +14,10 @@ Welcome to your new app.
         </div>
     </div>
 
-    <div style="margin: 0 auto; width: 696px;">
+    <div style="margin: 0 auto; width: 696px; text-align: center;">
         <input type="range" min="0" max="608" style="width: 100%;" @bind="@x" @bind:event="oninput" />
+        <button type="button" @onclick="@Submit">Submit</button>
+
     </div>
 
 </div>
@@ -23,6 +27,7 @@ Welcome to your new app.
 <SurveyPrompt Title="Feel free to share your feedback on this project!" />
 
 @code{
+    private string id = "";
     private string backgroundImage = "";
     private string missingPieceImage = "";
     private int x;
@@ -31,8 +36,31 @@ Welcome to your new app.
 	protected override async Task OnInitializedAsync()
     {
         var jigsawPuzzle = await http.GetFromJsonAsync<JigsawPuzzle>("api/jigsaw-puzzle");
+        id = jigsawPuzzle.Id;
         backgroundImage = jigsawPuzzle.BackgroundImage;
         missingPieceImage = jigsawPuzzle.MissingPieceImage;
         y = jigsawPuzzle.Y;
+    }
+
+    private async Task Submit()
+    {
+        var submission = new PuzzleSubmissionViewModel
+        {
+            Id = id,
+            X = x
+        };
+        var response = await http.PostAsJsonAsync("api/jigsaw-puzzle", submission);
+
+        var responseMessage = await response.Content.ReadFromJsonAsync<Response>();
+
+        if (responseMessage.IsSuccessful)
+        {
+            toastService.ShowSuccess(responseMessage.Message);
+        }
+        else
+        {
+            toastService.ShowError(responseMessage.Message);
+        }
+        
     }
 }

@@ -3,6 +3,7 @@ using Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Services
 {
@@ -33,13 +34,15 @@ namespace Services
                 DateTimeOffset createdAt = DateTimeOffset.Now;
                 DateTimeOffset expiredAt = DateTimeOffset.Now.AddSeconds(30);
 
-                var entity = new TableEntity("captcha", id)
+                var entity = new JigsawPuzzleEntity
                 {
-                    { "Id", id },
-                    { "X", x },
-                    { "Y", y },
-                    { "CreatedAt", createdAt },
-                    { "ExpiredAt", expiredAt }
+                    PartitionKey = "captcha",
+                    RowKey = id,
+                    Id = id,
+                    X = x,
+                    Y = y,
+                    CreatedAt = createdAt,
+                    ExpiredAt = expiredAt
                 };
 
                 tableClient.AddEntity(entity);
@@ -50,6 +53,20 @@ namespace Services
             }            
 
             return true;
+        }
+
+        public async Task<JigsawPuzzleEntity> LoadAsync(string id) 
+        {
+            var tableClient = new TableClient(new Uri(_storageEndpoint), _tableName, new TableSharedKeyCredential(_accountName, _accessKey));
+            
+            var queryResultsFilter = tableClient.QueryAsync<JigsawPuzzleEntity>(r => r.Id == id);
+
+            await foreach (JigsawPuzzleEntity qEntity in queryResultsFilter)
+            {
+                return qEntity;
+            }
+
+            return null;
         }
     }
 }
