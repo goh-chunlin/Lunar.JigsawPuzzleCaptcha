@@ -14,10 +14,12 @@ namespace Api
     public class JigsawPuzzleGet
     {
         private readonly IPieceService _pieceService;
+        private readonly IStorageService _storageService;
 
-        public JigsawPuzzleGet(IPieceService pieceService) 
+        public JigsawPuzzleGet(IPieceService pieceService, IStorageService storageService) 
         {
             _pieceService = pieceService;
+            _storageService = storageService;
         }
 
         [FunctionName("JigsawPuzzleGet")]
@@ -27,7 +29,10 @@ namespace Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            return new OkObjectResult(_pieceService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png"));
+            var jigsawPuzzle = _pieceService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png");
+            _storageService.Save(jigsawPuzzle);
+
+            return new OkObjectResult(jigsawPuzzle);
         }
     }
 }
