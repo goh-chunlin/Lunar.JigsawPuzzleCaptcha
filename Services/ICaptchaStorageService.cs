@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IStorageService
+    public interface ICaptchaStorageService
     {
         bool Save(JigsawPuzzle jigsawPuzzle);
 

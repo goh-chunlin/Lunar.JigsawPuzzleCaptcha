@@ -24,17 +24,17 @@ namespace TestProject
                 .AddJsonFile("testsettings.json")
                 .Build();
 
-            _storageEndpoint = configuration.GetValue<string>("StorageEndpoint");
-            _tableName = configuration.GetValue<string>("TableName");
-            _accountName = configuration.GetValue<string>("AccountName");
-            _accessKey = configuration.GetValue<string>("AccessKey");
+            _storageEndpoint = configuration.GetValue<string>("CaptchaStorageEndpoint");
+            _tableName = configuration.GetValue<string>("CaptchaStorageTableName");
+            _accountName = configuration.GetValue<string>("CaptchaStorageAccountName");
+            _accessKey = configuration.GetValue<string>("CaptchaStorageAccessKey");
         }
 
         [TestMethod]
         public void CreateMissingPieceAndBackground()
         {
             // Arrange
-            var storageService = new StorageService(_storageEndpoint, _tableName, _accountName, _accessKey);
+            var storageService = new CaptchaStorageService(_storageEndpoint, _tableName, _accountName, _accessKey);
 
             // Act
             var testJigsawPuzzle = new JigsawPuzzle { 
