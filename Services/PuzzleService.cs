@@ -26,7 +26,7 @@ namespace Services
                         {
                             Random random = new Random();
 
-                            int xRandom = random.Next(originalImage.Width - PIECE_WIDTH);
+                            int xRandom = random.Next(originalImage.Width - 2 * PIECE_WIDTH) + PIECE_WIDTH;
                             int yRandom = random.Next(originalImage.Height - PIECE_HEIGHT);
 
                             var puzzle = GenerateMissingPieceAndPuzzle(originalImage, xRandom, yRandom);
@@ -87,6 +87,38 @@ namespace Services
             return data;
         }
 
+        private int[,] GetMissingPieceBorderData(int[,] d)
+        {
+            int[,] borderData = new int[PIECE_WIDTH, PIECE_HEIGHT];
+
+            for (int i = 0; i < d.GetLength(0); i++)
+            {
+                for (int j = 0; j < d.GetLength(1); j++)
+                {
+                    if (d[i, j] == 0) continue;
+
+                    if (i - 1 < 0 || j - 1 < 0 || i + 1 >= PIECE_WIDTH || j + 1 >= PIECE_HEIGHT) 
+                    {
+                        borderData[i, j] = 1;
+
+                        continue;
+                    }
+
+                    int sumOfSourrounding = 
+                        d[i - 1, j - 1] + d[i, j - 1] + d[i + 1, j - 1] + 
+                        d[i - 1, j] + d[i + 1, j] + 
+                        d[i - 1, j + 1] + d[i, j + 1] + d[i + 1, j + 1];
+
+                    if (sumOfSourrounding != 8) 
+                    {
+                        borderData[i, j] = 1;
+                    }
+                }
+            }
+
+            return borderData;
+        }
+
         private (Bitmap MissingPiece, Bitmap JigsawPuzzle) GenerateMissingPieceAndPuzzle(Bitmap originalImage, int x, int y)
         {
             Bitmap missingPiece = new Bitmap(PIECE_WIDTH, PIECE_HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -101,6 +133,7 @@ namespace Services
             }
 
             int[,] missingPiecePattern = GetMissingPieceData();
+            int[,] missingPieceBorderPattern = GetMissingPieceBorderData(missingPiecePattern);
 
             for (int i = 0; i < PIECE_WIDTH; i++)
             {
@@ -111,7 +144,8 @@ namespace Services
 
                     if (argb == 1)
                     {
-                        missingPiece.SetPixel(i, j, Color.FromArgb(originalArgb));
+                        bool isBorder = missingPieceBorderPattern[i, j] == 1;
+                        missingPiece.SetPixel(i, j, isBorder ? Color.White : Color.FromArgb(originalArgb));
 
                         jigsawPuzzle.SetPixel(x + i, y + j, FilterPixel(originalImage, x + i, y + j));
                     }
