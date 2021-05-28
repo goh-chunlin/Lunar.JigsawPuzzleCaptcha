@@ -13,11 +13,13 @@ namespace Api
 {
     public class JigsawPuzzleGet
     {
+        private readonly IPuzzleImageService _puzzleImageService;
         private readonly IPuzzleService _pieceService;
-        private readonly IStorageService _storageService;
+        private readonly ICaptchaStorageService _storageService;
 
-        public JigsawPuzzleGet(IPuzzleService pieceService, IStorageService storageService) 
+        public JigsawPuzzleGet(IPuzzleImageService puzzleImageService, IPuzzleService pieceService, ICaptchaStorageService storageService) 
         {
+            _puzzleImageService = puzzleImageService;
             _pieceService = pieceService;
             _storageService = storageService;
         }
@@ -29,7 +31,12 @@ namespace Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var jigsawPuzzle = _pieceService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png");
+            var availablePuzzleImageUrls = await _puzzleImageService.GetAllImageUrlsAsync();
+
+            var random = new Random();
+            string selectedPuzzleImageUrl = availablePuzzleImageUrls[random.Next(availablePuzzleImageUrls.Count)];
+
+            var jigsawPuzzle = _pieceService.CreateJigsawPuzzle(selectedPuzzleImageUrl);
             _storageService.Save(jigsawPuzzle);
 
             return new OkObjectResult(jigsawPuzzle);

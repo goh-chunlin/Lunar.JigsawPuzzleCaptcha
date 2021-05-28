@@ -16,9 +16,12 @@ namespace Api
             string tableName = Environment.GetEnvironmentVariable("TableName");
             string accountName = Environment.GetEnvironmentVariable("AccountName");
             string accessKey = Environment.GetEnvironmentVariable("AccessKey");
+            string imageBlobStorageConnectionString = Environment.GetEnvironmentVariable("ImageBlobStorageConnectionString");
+            string imageBlobContainerName = Environment.GetEnvironmentVariable("ImageBlobContainerName");
 
             builder.Services.AddSingleton<IPuzzleService, PuzzleService>();
-            builder.Services.AddSingleton<IStorageService>(new StorageService(storageEndpoint, tableName, accountName, accessKey));
+            builder.Services.AddSingleton<ICaptchaStorageService>(new StorageService(storageEndpoint, tableName, accountName, accessKey));
+            builder.Services.AddSingleton<IPuzzleImageService>(new PuzzleImageService(imageBlobStorageConnectionString, imageBlobContainerName));
         }
     }
 }

@@ -16,9 +16,9 @@ namespace Api
     public class JigsawPuzzlePost
     {
         private readonly IPuzzleService _pieceService;
-        private readonly IStorageService _storageService;
+        private readonly ICaptchaStorageService _storageService;
 
-        public JigsawPuzzlePost(IPuzzleService pieceService, IStorageService storageService)
+        public JigsawPuzzlePost(IPuzzleService pieceService, ICaptchaStorageService storageService)
         {
             _pieceService = pieceService;
             _storageService = storageService;

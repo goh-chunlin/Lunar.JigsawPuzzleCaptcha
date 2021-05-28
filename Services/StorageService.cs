@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class StorageService : IStorageService
+    public class StorageService : ICaptchaStorageService
     {
         private string _storageEndpoint;
         private string _tableName;
