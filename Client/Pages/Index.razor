@@ -8,7 +8,7 @@
 </p>
 
 <div>
-    <div style="margin: 0 auto; padding-left: @(x)px; padding-top: @(y)px; width: 696px; height: 442px; background-image: url('data:image/png;base64, @backgroundImage');">
+    <div style="margin: 0 auto; padding-left: @(x)px; padding-top: @(y)px; width: 696px; height: 442px; background-image: url('@backgroundImage'); background-size: contain;">
         <div style="width: 88px; height: 80px; background-image: url('data:image/png;base64, @missingPieceImage');">
             
         </div>
@@ -28,16 +28,16 @@
 
 @code{
     private string id = "";
-    private string backgroundImage = "";
+    private string backgroundImage = "/images/loading.gif";
     private string missingPieceImage = "";
-    private int x;
+    private int x = 10;
     private int y;
 
 	protected override async Task OnInitializedAsync()
     {
         var jigsawPuzzle = await http.GetFromJsonAsync<JigsawPuzzle>("api/jigsaw-puzzle");
         id = jigsawPuzzle.Id;
-        backgroundImage = jigsawPuzzle.BackgroundImage;
+        backgroundImage = "data:image/png;base64, " + jigsawPuzzle.BackgroundImage;
         missingPieceImage = jigsawPuzzle.MissingPieceImage;
         y = jigsawPuzzle.Y;
     }
