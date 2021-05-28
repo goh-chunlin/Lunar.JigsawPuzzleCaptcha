@@ -2,7 +2,7 @@
 
 namespace Services
 {
-    public interface IPieceService
+    public interface IPuzzleService
     {
         JigsawPuzzle CreateJigsawPuzzle(string imageUrl);
 

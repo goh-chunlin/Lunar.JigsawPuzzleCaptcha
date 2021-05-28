@@ -17,7 +17,7 @@ namespace Api
             string accountName = Environment.GetEnvironmentVariable("AccountName");
             string accessKey = Environment.GetEnvironmentVariable("AccessKey");
 
-            builder.Services.AddSingleton<IPieceService, PieceService>();
+            builder.Services.AddSingleton<IPuzzleService, PuzzleService>();
             builder.Services.AddSingleton<IStorageService>(new StorageService(storageEndpoint, tableName, accountName, accessKey));
         }
     }

@@ -10,7 +10,7 @@ namespace TestProject
         public void CreateMissingPieceAndBackground()
         {
             // Arrange
-            var pieceService = new PieceService();
+            var pieceService = new PuzzleService();
 
             // Act
             var resultMap = pieceService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png");

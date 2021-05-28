@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Services
 {
-    public class PieceService : IPieceService
+    public class PuzzleService : IPuzzleService
     {
         const int PIECE_WIDTH = 88;
         const int PIECE_HEIGHT = 80;

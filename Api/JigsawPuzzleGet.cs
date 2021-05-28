@@ -13,10 +13,10 @@ namespace Api
 {
     public class JigsawPuzzleGet
     {
-        private readonly IPieceService _pieceService;
+        private readonly IPuzzleService _pieceService;
         private readonly IStorageService _storageService;
 
-        public JigsawPuzzleGet(IPieceService pieceService, IStorageService storageService) 
+        public JigsawPuzzleGet(IPuzzleService pieceService, IStorageService storageService) 
         {
             _pieceService = pieceService;
             _storageService = storageService;
