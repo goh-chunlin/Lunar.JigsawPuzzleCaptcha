@@ -71,7 +71,7 @@ namespace Services
             {
                 for (int j = 0; j < PIECE_HEIGHT; j++)
                 {
-                    double d1 = Math.Pow(j, 2) + Math.Pow(i - c1, 2);
+                    double d1 = Math.Pow(i - c1, 2) + Math.Pow(j, 2);
                     double d2 = Math.Pow(i - xBegin, 2) + Math.Pow(j - c2, 2);
                     if ((j <= yBegin && d1 < squareOfTabRadius) || (i >= xBegin && d2 > squareOfTabRadius))
                     {
@@ -122,15 +122,6 @@ namespace Services
         private (Bitmap MissingPiece, Bitmap JigsawPuzzle) GenerateMissingPieceAndPuzzle(Bitmap originalImage, int x, int y)
         {
             Bitmap missingPiece = new Bitmap(PIECE_WIDTH, PIECE_HEIGHT, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Bitmap jigsawPuzzle = new Bitmap(originalImage.Width, originalImage.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            for (int i = 0; i < jigsawPuzzle.Width; i++)
-            {
-                for (int j = 0; j < jigsawPuzzle.Height; j++)
-                {
-                    jigsawPuzzle.SetPixel(i, j, originalImage.GetPixel(i, j));
-                }
-            }
 
             int[,] missingPiecePattern = GetMissingPieceData();
             int[,] missingPieceBorderPattern = GetMissingPieceBorderData(missingPiecePattern);
@@ -139,15 +130,15 @@ namespace Services
             {
                 for (int j = 0; j < PIECE_HEIGHT; j++)
                 {
-                    int argb = missingPiecePattern[i, j];
+                    int templatePattern = missingPiecePattern[i, j];
                     int originalArgb = originalImage.GetPixel(x + i, y + j).ToArgb();
 
-                    if (argb == 1)
+                    if (templatePattern == 1)
                     {
                         bool isBorder = missingPieceBorderPattern[i, j] == 1;
                         missingPiece.SetPixel(i, j, isBorder ? Color.White : Color.FromArgb(originalArgb));
 
-                        jigsawPuzzle.SetPixel(x + i, y + j, FilterPixel(originalImage, x + i, y + j));
+                        originalImage.SetPixel(x + i, y + j, FilterPixel(originalImage, x + i, y + j));
                     }
                     else
                     {
@@ -156,7 +147,7 @@ namespace Services
                 }
             }
 
-            return (missingPiece, jigsawPuzzle);
+            return (missingPiece, originalImage);
         }
 
         private Color FilterPixel(Bitmap img, int x, int y)
