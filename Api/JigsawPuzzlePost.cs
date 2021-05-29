@@ -15,13 +15,13 @@ namespace Api
 {
     public class JigsawPuzzlePost
     {
-        private readonly IPuzzleService _pieceService;
-        private readonly ICaptchaStorageService _storageService;
+        private readonly IPuzzleService _puzzleService;
+        private readonly ICaptchaStorageService _captchaStorageService;
 
         public JigsawPuzzlePost(IPuzzleService pieceService, ICaptchaStorageService storageService)
         {
-            _pieceService = pieceService;
-            _storageService = storageService;
+            _puzzleService = pieceService;
+            _captchaStorageService = storageService;
         }
 
         [FunctionName("JigsawPuzzlePost")]
@@ -35,7 +35,7 @@ namespace Api
             var puzzleSubmission = JsonSerializer.Deserialize<PuzzleSubmissionViewModel>(body, 
                 new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-            var correspondingRecord = await _storageService.LoadAsync(puzzleSubmission.Id);
+            var correspondingRecord = await _captchaStorageService.LoadAsync(puzzleSubmission.Id);
 
             var submission = new JigsawPuzzleInfo 
             {
@@ -51,7 +51,7 @@ namespace Api
                 ExpiredAt = correspondingRecord.ExpiredAt
             };
 
-            bool isPuzzleSolved = _pieceService.IsPuzzleSolved(submission, record);
+            bool isPuzzleSolved = _puzzleService.IsPuzzleSolved(submission, record);
 
             var response = new Response 
             {

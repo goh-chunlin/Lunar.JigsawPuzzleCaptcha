@@ -10,10 +10,10 @@ namespace TestProject
         public void CreateMissingPieceAndBackground()
         {
             // Arrange
-            var pieceService = new PuzzleService();
+            var puzzleService = new PuzzleService();
 
             // Act
-            var resultMap = pieceService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png");
+            var resultMap = puzzleService.CreateJigsawPuzzle("https://gclstorage.blob.core.windows.net/images/genshin-impact-01.png");
 
             // Assert    
             Assert.IsTrue(!string.IsNullOrWhiteSpace(resultMap.BackgroundImage), "There is a background image!");

@@ -34,14 +34,14 @@ namespace TestProject
         public void CreateMissingPieceAndBackground()
         {
             // Arrange
-            var storageService = new CaptchaStorageService(_storageEndpoint, _tableName, _accountName, _accessKey);
+            var captchaStorageService = new CaptchaStorageService(_storageEndpoint, _tableName, _accountName, _accessKey);
 
             // Act
             var testJigsawPuzzle = new JigsawPuzzle { 
                 X = 20, 
                 Y = 400 
             };
-            bool result = storageService.Save(testJigsawPuzzle);
+            bool result = captchaStorageService.Save(testJigsawPuzzle);
 
             // Assert    
             Assert.IsTrue(result, "The entity is successfully saved.");

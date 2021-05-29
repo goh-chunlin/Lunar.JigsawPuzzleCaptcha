@@ -14,14 +14,14 @@ namespace Api
     public class JigsawPuzzleGet
     {
         private readonly IPuzzleImageService _puzzleImageService;
-        private readonly IPuzzleService _pieceService;
-        private readonly ICaptchaStorageService _storageService;
+        private readonly IPuzzleService _puzzleService;
+        private readonly ICaptchaStorageService _captchaStorageService;
 
         public JigsawPuzzleGet(IPuzzleImageService puzzleImageService, IPuzzleService pieceService, ICaptchaStorageService storageService) 
         {
             _puzzleImageService = puzzleImageService;
-            _pieceService = pieceService;
-            _storageService = storageService;
+            _puzzleService = pieceService;
+            _captchaStorageService = storageService;
         }
 
         [FunctionName("JigsawPuzzleGet")]
@@ -36,8 +36,8 @@ namespace Api
             var random = new Random();
             string selectedPuzzleImageUrl = availablePuzzleImageUrls[random.Next(availablePuzzleImageUrls.Count)];
 
-            var jigsawPuzzle = _pieceService.CreateJigsawPuzzle(selectedPuzzleImageUrl);
-            _storageService.Save(jigsawPuzzle);
+            var jigsawPuzzle = _puzzleService.CreateJigsawPuzzle(selectedPuzzleImageUrl);
+            _captchaStorageService.Save(jigsawPuzzle);
 
             return new OkObjectResult(jigsawPuzzle);
         }
