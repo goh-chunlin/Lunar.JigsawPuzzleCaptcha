@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace TestProject
 {
     [TestClass]
-    public class StorageUnitTest
+    public class CaptchaStorageUnitTest
     {
         private string _storageEndpoint;
         private string _tableName;
         private string _accountName;
         private string _accessKey;
 
-        public StorageUnitTest()
+        public CaptchaStorageUnitTest()
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("testsettings.json")
