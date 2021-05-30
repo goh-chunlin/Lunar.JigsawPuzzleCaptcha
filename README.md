@@ -28,6 +28,8 @@ this jigsaw puzzle CAPTCHA in .NET 5 with C# and Blazor.
 
 <img src="https://gclstorage.blob.core.windows.net/images/Lunar.JigsawPuzzleCaptcha-screenshot01.png" />
 
+<img src="https://gclstorage.blob.core.windows.net/images/Lunar.JigsawPuzzleCaptcha-screenshot02.png" />
+
 ## Project Blog Post
 
 [Image Based CAPTCHA using Jigsaw Puzzle on Blazor](https://cuteprogramming.wordpress.com/2021/05/30/image-based-captcha-using-jigsaw-puzzle-on-blazor/)
