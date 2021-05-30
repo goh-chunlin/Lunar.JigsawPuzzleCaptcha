@@ -22,6 +22,12 @@ In 2019, on [CSDN](https://www.csdn.net/) (Chinese Software Developer Network), 
 there is still room for improvement in, for example, documenting the code and naming the variables. Hence, I'd like to take this opportunity to implement 
 this jigsaw puzzle CAPTCHA in .NET 5 with C# and Blazor.
 
+## Demo ##
+
+[Demo](https://jpc.chunlinprojects.com/)
+
+<img src="https://gclstorage.blob.core.windows.net/images/Lunar.JigsawPuzzleCaptcha-screenshot01.png" />
+
 ## Project Blog Post
 
 [Image Based CAPTCHA using Jigsaw Puzzle on Blazor](https://cuteprogramming.wordpress.com/2021/05/30/image-based-captcha-using-jigsaw-puzzle-on-blazor/)
